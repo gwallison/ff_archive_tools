@@ -24,7 +24,7 @@ class Make_DF_From_Archive():
         self.zname = os.path.join(zipdir,in_name)
         self.outset_dir = outset_dir
     
-    def import_raw_FFV3(self):
+    def import_raw_FFV3(self, verbose=True):
         """
         """
         dflist = []
@@ -43,7 +43,8 @@ class Make_DF_From_Archive():
             #print(self.startfile,self.endfile)
             for fn in infiles[0:]:
                 with z.open(fn) as f:
-                    print(f' -- processing {fn}')
+                    if verbose:
+                        print(f' -- processing {fn}')
                     t = pd.read_csv(f,low_memory=False,
                                     dtype= {'APINumber':'str', 
                                             'CASNumber':'str', 
@@ -101,7 +102,7 @@ class Make_DF_From_Archive():
         assert(len(final)==len(final.reckey.unique()))
         return final
         
-    def import_raw_FFV4(self):
+    def import_raw_FFV4(self, verbose=True):
         """
         """
         dflist = []
@@ -117,45 +118,47 @@ class Make_DF_From_Archive():
                     
             inf.sort()
             infiles = [x for _,x in inf]  # now we have a well-sorted list
+            
             for fn in infiles[0:]:
                 with z.open(fn) as f:
-                    print(f' -- processing {fn}')
-                    t = pd.read_csv(f,low_memory=False,
-                                    dtype={'APINumber':'str', 
-                                           'CASNumber':'str', 
-                                           'ClaimantCompany':'str', 
-                                           'CountyName':'str', 
-                                           'DisclosureId':'str', 
-                                           'FFVersion':'str', 
-                                           'FederalWell':'str', 
-                                           'IndianWell':'str', 
-                                           'IngredientComment':'str', 
-                                           'IngredientCommonName':'str', 
-                                           'IngredientMSDS':'str', 
-                                           'IngredientName':'str', 
-                                           'IngredientsId':'str', 
-                                           'JobEndDate':'str', 
-                                           'JobStartDate':'str', 
-                                           'Latitude':'str', 
-                                           'Longitude':'str', 
-                                           'MassIngredient':'str', 
-                                           'OperatorName':'str', 
-                                           'PercentHFJob':'str', 
-                                           'PercentHighAdditive':'str', 
-                                           'Projection':'str', 
-                                           'Purpose':'str', 
-                                           'PurposeId':'str', 
-                                           'StateName':'str', 
-                                           'Supplier':'str', 
-                                           'TVD':'str', 
-                                           'TotalBaseNonWaterVolume':'str', 
-                                           'TotalBaseWaterVolume':'str', 
-                                           'TradeName':'str', 
-                                           'WellName':'str', 
-                                           'ingKeyPresent':'str', 
-                                           'raw_filename':'str', 
-                                           'reckey':'str'}
-                                    )
+                    if verbose:
+                        print(f' -- processing {fn}')
+                    t = pd.read_csv(f,low_memory=False, dtype='str')
+                                    # dtype={'APINumber':'str', 
+                                    #        'CASNumber':'str', 
+                                    #        'ClaimantCompany':'str', 
+                                    #        'CountyName':'str', 
+                                    #        'DisclosureId':'str', 
+                                    #        'FFVersion':'str', 
+                                    #        'FederalWell':'str', 
+                                    #        'IndianWell':'str', 
+                                    #        'IngredientComment':'str', 
+                                    #        'IngredientCommonName':'str', 
+                                    #        'IngredientMSDS':'str', 
+                                    #        'IngredientName':'str', 
+                                    #        'IngredientsId':'str', 
+                                    #        'JobEndDate':'str', 
+                                    #        'JobStartDate':'str', 
+                                    #        'Latitude':'str', 
+                                    #        'Longitude':'str', 
+                                    #        'MassIngredient':'str', 
+                                    #        'OperatorName':'str', 
+                                    #        'PercentHFJob':'str', 
+                                    #        'PercentHighAdditive':'str', 
+                                    #        'Projection':'str', 
+                                    #        'Purpose':'str', 
+                                    #        'PurposeId':'str', 
+                                    #        'StateName':'str', 
+                                    #        'Supplier':'str', 
+                                    #        'TVD':'str', 
+                                    #        'TotalBaseNonWaterVolume':'str', 
+                                    #        'TotalBaseWaterVolume':'str', 
+                                    #        'TradeName':'str', 
+                                    #        'WellName':'str', 
+                                    #        'ingKeyPresent':'str', 
+                                    #        'raw_filename':'str', 
+                                    #        'reckey':'str'}
+                                    # )
                     
                     # we need an indicator of the presence of IngredientKey
                     # whitout keeping the whole honking thing around
@@ -198,4 +201,6 @@ class Make_DF_From_Archive():
 if __name__ == '__main__':
     mdfa = Make_DF_From_Archive(zipdir=r"D:\archives\FF bulk data",
                                 outset_dir=r"D:\archives\raw_df_archive")
-    mdfa.compile_master_from_set()
+    # mdfa.compile_master_from_set()
+    mdfa.get_difference_set_FFV4(r"D:\archives\raw_df_archive\ff_archive_meta_2024-03-13.parquet",
+                                 r"D:\archives\raw_df_archive\ff_archive_meta_2024-03-18.parquet")
