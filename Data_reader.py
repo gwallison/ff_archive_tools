@@ -123,7 +123,7 @@ class Make_DF_From_Archive():
                 with z.open(fn) as f:
                     if verbose:
                         print(f' -- processing {fn}')
-                    t = pd.read_csv(f,low_memory=False, dtype='str')
+                    t = pd.read_csv(f,low_memory=False, dtype='str') # read everything as string
                                     # dtype={'APINumber':'str', 
                                     #        'CASNumber':'str', 
                                     #        'ClaimantCompany':'str', 
