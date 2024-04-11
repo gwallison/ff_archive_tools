@@ -106,10 +106,12 @@ class Make_Meta_From_Archive():
                 pubdf.df = 'done'
                 print(fdate,len(ccat),len(pubdf))
                 last_date = fdate
-                # store the results (at this stage.)
-                pubdf.to_parquet(self.delay_fn)
                 with open(self.pub_delay_info_fn,'a') as f:
                     f.write(last_date+'\n')
+        pubdf.earliest_poss_date = pd.to_datetime(pubdf.earliest_poss_date,errors='coerce',format= "%Y-%m-%d")
+        pubdf.first_detected = pd.to_datetime(pubdf.first_detected,errors='coerce',format= "%Y-%m-%d")
+        pubdf['pub_delay_days'] = (pubdf.earliest_poss_date - pubdf.date).dt.days
+        pubdf.to_parquet(self.delay_fn)
         return pubdf
                 
 
@@ -145,11 +147,13 @@ class Make_Meta_From_Archive():
                             pubdf = ccat.copy() # for first iteration
                         pubdf.df = 'done'
                         print(fdate,len(ccat),len(pubdf))
-                        # store the results (at this stage.)
-                        pubdf.to_parquet(self.delay_fn)
                         with open(self.pub_delay_info_fn,'a') as f:
                             f.write(fdate+'\n')
                         done_lst.append(fdate)
+        pubdf.earliest_poss_date = pd.to_datetime(pubdf.earliest_poss_date,errors='coerce',format= "%Y-%m-%d")
+        pubdf.first_detected = pd.to_datetime(pubdf.first_detected,errors='coerce',format= "%Y-%m-%d")
+        pubdf['pub_delay_days'] = (pubdf.earliest_poss_date - pubdf.date).dt.days
+        pubdf.to_parquet(self.delay_fn)
         return pubdf
                      
 
