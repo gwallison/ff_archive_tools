@@ -141,7 +141,7 @@ class Make_Meta_From_Archive():
                         ccat['earliest_poss_date'] = done_lst[-1]
                         ccat['first_detected'] = fdate
                         
-                        if len(pubdf)>0:
+                        if (len(pubdf)>0)&(len(ccat)>0):
                             pubdf = pd.concat([pubdf,ccat],sort=True)
                         else:
                             pubdf = ccat.copy() # for first iteration
