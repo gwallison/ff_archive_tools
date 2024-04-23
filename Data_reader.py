@@ -180,7 +180,7 @@ class Make_DF_From_Archive():
             if fn[:11] == 'ff_archive_':
                 fdate = fn[11:-4]
                 nfn = os.path.join(self.outset_dir,
-                                   'ff_archive_meta_'+fn[11:-4]+'.parquet')
+                                   'raw_df_'+fn[11:-4]+'.parquet')
                 # don't redo if it already exists
                 if not os.path.exists(nfn):                
                     print(fdate)
@@ -199,8 +199,6 @@ class Make_DF_From_Archive():
         print('Done')
 
 if __name__ == '__main__':
-    mdfa = Make_DF_From_Archive(zipdir=r"D:\archives\FF bulk data",
-                                outset_dir=r"D:\archives\raw_df_archive")
-    # mdfa.compile_master_from_set()
-    mdfa.get_difference_set_FFV4(r"D:\archives\raw_df_archive\ff_archive_meta_2024-03-13.parquet",
-                                 r"D:\archives\raw_df_archive\ff_archive_meta_2024-03-18.parquet")
+    mdfa = Make_DF_From_Archive(zipdir=r"D:\openFF_archive\FF_bulk_data",
+                                outset_dir=r"D:\openFF_archive\raw_dataframes")
+    mdfa.compile_master_from_set()
