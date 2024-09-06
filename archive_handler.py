@@ -6,7 +6,8 @@ import os
 import shutil
 
 # arc_dir = r"C:\MyDocs\integrated\archive"
-arc_dir = r"D:\openFF_archive"
+# arc_dir = r"D:\openFF_archive"
+arc_dir = r"C:\MyDocs\integrated\openFF_archive"
 bulk_dir = os.path.join(arc_dir,'FF_bulk_data')
 meta_dir = os.path.join(arc_dir,'pub_dates')
 

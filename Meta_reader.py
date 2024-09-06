@@ -17,7 +17,7 @@ import os
 class Make_Meta_From_Archive():
     def __init__(self,in_name='testData.zip',
                  zipdir='./working/',
-                 out_dir=r"C:\MyDocs\integrated\archive\meta"):
+                 out_dir=r"C:\MyDocs\integrated\openFF_archive\pub_dates"):
         self.in_name = in_name
         self.zipdir = zipdir
         self.zname = os.path.join(zipdir,in_name)
